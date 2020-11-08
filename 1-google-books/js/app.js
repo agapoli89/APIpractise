@@ -18,7 +18,7 @@ const takeTitle = (e) => {
     }); */
 
     //XMLHttpRequest
-    const xhr = new XMLHttpRequest();
+   /*  const xhr = new XMLHttpRequest();
 
     xhr.addEventListener('load', e => {
         if (xhr.status === 200) {
@@ -32,7 +32,24 @@ const takeTitle = (e) => {
     });
 
     xhr.open("GET", "https://www.googleapis.com/books/v1/volumes?q=" + title, true);
-    xhr.send();
+    xhr.send(); */
+
+    //Fetch
+    fetch("https://www.googleapis.com/books/v1/volumes?q=" + title)
+    .then(response => {
+        if (response.ok) {
+            return response.json()
+        } else {
+            throw new Error (`Http error: ${response.status}`)
+        }
+    })
+    .then(response => {
+        response.items.forEach(item => {console.log(item.volumeInfo.title)   
+        });
+    })
+    .catch(error => {
+        console.log(error)
+    });
 }
 
 btn.addEventListener('click', takeTitle);
