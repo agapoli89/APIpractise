@@ -8,11 +8,30 @@ const galleryBottom = document.querySelector('.gallery-bottom');
 let picturesNumber = 0;
 const picturesOnOneSide = 20;
 
+const getImages = async (e) => {
+
+     e.preventDefault();
+     document.querySelector('.pxLogo-container').style.display = "none";
+
+    try {
+        const response = await fetch(`https://pixabay.com/api/?key=${apiKey}&q=${input.value}&image_type=photo&page=${page}`);
+
+        if (response.ok) {
+            const data = await response.json();
+            picturesNumber = data.totalHits;
+            createGallery(data);
+        } else {
+            throw new Error(`Http error: ${response.status}`);
+        }
+    } catch(error) {
+        console.error(error)
+        alert('Ups.. coś poszło nie tak. Spróbuj ponownie.');
+    } 
+}  
+/* 
 const getImages = (e) => {
-    if (e.path[0].classList.contains('search-btn')) {
-        e.preventDefault();
-        document.querySelector('.pxLogo-container').style.display = "none";
-    }
+    e.preventDefault();
+    document.querySelector('.pxLogo-container').style.display = "none";
     
     fetch(`https://pixabay.com/api/?key=${apiKey}&q=${input.value}&image_type=photo&page=${page}`)
     .then(response => {
@@ -30,7 +49,7 @@ const getImages = (e) => {
         console.error(error)
         alert('Ups.. coś poszło nie tak. Spróbuj ponownie.');
     });
-}
+} */
 
 const createGallery = (pictures) => {
     galleryList.innerHTML = "";    
