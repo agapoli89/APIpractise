@@ -23,8 +23,6 @@ const getImages = (e) => {
     })
     .then(response => {
         picturesNumber = response.totalHits;
-        console.log(response);
-        
         createGallery(response);      
     })
     .catch(error => {
@@ -39,12 +37,14 @@ const createGallery = (pictures) => {
         a.setAttribute('href', picture.largeImageURL);
         a.classList.add('gallery-element');
         a.classList.add('is-loading');
+        a.dataset.fslightbox = "gallery";
         galleryList.appendChild(a);
         const img = new Image;
         img.src = picture.webformatURL;
         img.alt = picture.tags;
         img.classList.add('gallery-image')
         a.appendChild(img); 
+        refreshFsLightbox();
         img.addEventListener('load', () => {
             a.classList.remove('is-loading');
         })
