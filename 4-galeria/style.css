@@ -1,5 +1,7 @@
 body {
     background: #eee;
+    font-family: 'Lato', sans-serif;
+    ;
 }
 
 .gallery {
@@ -26,6 +28,19 @@ body {
     border: 0;
     padding: 0 40px;
     border-radius: 5px;
+}
+
+.pxLogo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.logo-px {
+    max-width: 100%;
+    height: auto;
 }
 
 .gallery-list {
@@ -63,6 +78,7 @@ body {
         transform: translate(-50%, -50%) rotate(1turn);
     }
 }
+
 
 .gallery-image {
     position: absolute;

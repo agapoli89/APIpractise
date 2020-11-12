@@ -11,6 +11,7 @@ const picturesOnOneSide = 20;
 const getImages = (e) => {
     if (e.path[0].classList.contains('search-btn')) {
         e.preventDefault();
+        document.querySelector('.pxLogo-container').style.display = "none";
     }
     
     fetch(`https://pixabay.com/api/?key=${apiKey}&q=${input.value}&image_type=photo&page=${page}`)
@@ -27,6 +28,7 @@ const getImages = (e) => {
     })
     .catch(error => {
         console.error(error)
+        alert('Ups.. coś poszło nie tak. Spróbuj ponownie.');
     });
 }
 
