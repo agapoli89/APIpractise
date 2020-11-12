@@ -1,15 +1,19 @@
-const apiKey = '19068635-17181881dff5ac883686878fb';
 const input = document.querySelector('.search-input');
 const btn = document.querySelector('.search-btn');
+const apiKey = '19068635-17181881dff5ac883686878fb';
+let page = 1;
+
 const galleryList = document.querySelector('.gallery-list');
 const galleryBottom = document.querySelector('.gallery-bottom');
 let picturesNumber = 0;
 const picturesOnOneSide = 20;
-const picturesArray = [];
 
 const getImages = (e) => {
-    e.preventDefault();
-    fetch(`https://pixabay.com/api/?key=${apiKey}&q=${input.value}&image_type=photo`)
+    if (e.path[0].classList.contains('search-btn')) {
+        e.preventDefault();
+    }
+    
+    fetch(`https://pixabay.com/api/?key=${apiKey}&q=${input.value}&image_type=photo&page=${page}`)
     .then(response => {
         if (response.ok) {
             return response.json();
@@ -41,7 +45,9 @@ const createGallery = (pictures) => {
         img.alt = picture.tags;
         img.classList.add('gallery-image')
         a.appendChild(img); 
-        picturesArray.push(a);
+        img.addEventListener('load', () => {
+            a.classList.remove('is-loading');
+        })
     });
     addNavigation();
 }
@@ -63,9 +69,26 @@ const addNavigation = () => {
 }
 
 const checkNavigation = (prevBtn, nextBtn) => {
-    const sidesNumbers = Math.ceil(picturesNumber / picturesOnOneSide);
+    const pagesNumbers = Math.ceil(picturesNumber / picturesOnOneSide);
+
+    if (page === 1) {
+        prevBtn.disabled = true;
+    } else {
+        prevBtn.addEventListener('click', function(e) {
+            page--;
+            getImages(e);
+        })
+    }
 
 
+    if (page === pagesNumbers) {
+        nextBtn.disabled = true;
+    } else {
+        nextBtn.addEventListener('click', function(e) {
+            page++;
+            getImages(e);
+        })
+    }
 }
 
 btn.addEventListener('click', getImages);
